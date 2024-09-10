@@ -24,4 +24,8 @@ app.get("/api/v1/blog/:id",(c) => {
 })
 
 
+app.get("/api/v1/blog/bulk",(c) => {
+  return c.text("blog")
+})
+
 export default app
