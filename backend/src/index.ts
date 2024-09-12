@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import {jwt, sign} from "hono/jwt"
+import {jwt, sign, verify} from "hono/jwt"
 
 const app = new Hono<{
   Bindings : {
@@ -10,6 +10,18 @@ const app = new Hono<{
   }
 }>()
 
+app.use('/api/v1/blog/*',async (c, next) => {
+  const header = c.req.header('Authorization') || "";
+  const res = await verify(header, c.env.JWT_SECRET)
+  if(res.id) {
+    await next()
+  }
+  else{
+    c.status(403)
+    return c.json({error: "unauthorize"})
+  }
+  await next()
+})
 
 app.post("/api/v1/signup",async (c) => {
   const prisma = new PrismaClient({
