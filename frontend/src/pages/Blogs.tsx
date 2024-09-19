@@ -1,44 +1,24 @@
 import { Appbar } from "../components/Appbar";
 import { BlogCard } from "../components/BlogCard";
+import { useBlogs } from "../hooks/useBlogs";
 
 export const Blogs = () => {
+    const {blogs, loading} = useBlogs()
+    
+    console.log(blogs) 
+    console.log(loading)
+    if(loading){
+        return <div>Loading...</div>
+    }
+   
   return (
     <>
     <Appbar/>
       <div className="flex justify-center">
         <div className=" max-w-xl">
-          <BlogCard
-            authorName={"dhiraj udhani"}
-            content={
-              "something very confidential which can not be said until you wake up so wake up fast and go to the gym and once you will know the secret the sceret of life so go to the gym work hark and do better things in life "
+            {
+                blogs.map(blog => <BlogCard id={blog.id} authorName={blog.author.name || "Anonymous"} content={blog.content} title={blog.title} publishedDate="1/1/2001"/>)
             }
-            title={"My first blog"}
-            publishedDate="1/1/2001"
-          />
-          <BlogCard
-            authorName={"dhiraj udhani"}
-            content={
-              "something very confidential which can not be said until you wake up so wake up fast and go to the gym and once you will know the secret the sceret of life so go to the gym work hark and do better things in life "
-            }
-            title={"My first blog"}
-            publishedDate="1/1/2001"
-          />{" "}
-          <BlogCard
-            authorName={"dhiraj udhani"}
-            content={
-              "something very confidential which can not be said until you wake up so wake up fast and go to the gym and once you will know the secret the sceret of life so go to the gym work hark and do better things in life "
-            }
-            title={"My first blog"}
-            publishedDate="1/1/2001"
-          />{" "}
-          <BlogCard
-            authorName={"dhiraj udhani"}
-            content={
-              "something very confidential which can not be said until you wake up so wake up fast and go to the gym and once you will know the secret the sceret of life so go to the gym work hark and do better things in life "
-            }
-            title={"My first blog"}
-            publishedDate="1/1/2001"
-          />
         </div>
       </div>
     </>
